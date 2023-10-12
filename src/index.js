@@ -42,6 +42,7 @@ app.engine('hbs', handlebars.engine({
         },
         checkChecked: (data) => {
             if (data) {
+
                 return (
                     `checked`
                 )
@@ -50,18 +51,17 @@ app.engine('hbs', handlebars.engine({
         },
         checkCheckedNo: (data) => {
             if (!data) {
+
                 return (
                     `checked`
                 )
-
             }
         },
-        checkAdmin: (login) => {
-            if (login == true) {
+        check: (data) => {
+            if (data==="true") {
                 return (
-                    ` hidden`
+                    `checked`
                 )
-
             }
         },
 

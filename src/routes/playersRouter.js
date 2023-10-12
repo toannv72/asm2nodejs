@@ -9,7 +9,7 @@ playersRouter
 
 playersRouter
     .route("/")
-    .post(PlayersController.post)
+    .post( PlayersController.post)
     .get(PlayersController.index)
 
 

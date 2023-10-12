@@ -11,7 +11,7 @@ class nationsController {
                     res.render('view/nation',
                         {
                             movie: mutipleMongooseToObject(nations),
-                            
+
                         })
                 }
                 ))
@@ -26,14 +26,14 @@ class nationsController {
     post(req, res, next) {
         try {
             const { name, description } = req.body
-            console.log(1111111, description);
+         
             if (!description) {
                 Nations.find({})
                     .then((nations => {
                         res.render('view/nation',
                             {
                                 movie: mutipleMongooseToObject(nations),
-                                
+
                                 errorDescription: `Description cannot be empty `
                             })
                     }
@@ -51,7 +51,7 @@ class nationsController {
                                     res.render('view/nation',
                                         {
                                             movie: mutipleMongooseToObject(nations),
-                                            
+                                            input:req.body,
                                             errorMessage: `${name} name is already on the board`
                                         })
                                 }
@@ -87,8 +87,8 @@ class nationsController {
                         res.render('view/nation',
                             {
                                 movie: mutipleMongooseToObject(nations),
-                                
-                                errorPutDescription: `Description cannot be empty `
+                                errorPutDescription: `Description cannot be empty `,
+                                input:req.body
                             })
                     }
                     ))
@@ -105,7 +105,7 @@ class nationsController {
                                         res.render('view/nation',
                                             {
                                                 movie: mutipleMongooseToObject(nations),
-                                                
+                                               
                                                 errorPutName: `${name} name is already on the board`
                                             })
                                     }

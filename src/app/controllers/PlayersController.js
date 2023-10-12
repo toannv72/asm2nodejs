@@ -52,10 +52,10 @@ class playersController {
     index(req, res, next) {
         try {
             Players.find({})
-                .then((nations => {
+                .then((players => {
                     res.render('view/players',
                         {
-                            movie: mutipleMongooseToObject(nations),
+                            movie: mutipleMongooseToObject(players),
                             clubList: clubData,
                             positionList: positions,
                         })
@@ -66,11 +66,10 @@ class playersController {
             res.render('view/home')
         }
     }
+
     post(req, res, next) {
         try {
             const { name, description } = req.body
-            console.log(1111111, req.body);
-
             Players.findOne({ name: name })
                 .then((players => {
                     if (players) {
@@ -81,7 +80,8 @@ class playersController {
                                         movie: mutipleMongooseToObject(players),
                                         clubList: clubData,
                                         positionList: positions,
-                                        errorMessageName: `${name} name is already on the board`
+                                        errorMessageName: `${name} name is already on the board`,
+                                        input: req.body
                                     })
                             }
                             ))
@@ -95,31 +95,55 @@ class playersController {
                             })
                             .catch(next);
                     }
-
                 }
                 ))
                 .catch(next)
-
         } catch (err) {
             res.render('view/home')
         }
     }
 
+    checkCaptain(req, res, next) {
+        const { club } = req.body;
+        Players.findOne({ club: club, isCaptain: true })
+            .then((captain) => {
+                if (captain) {
+                    // Nếu đã có đội trưởng, hiển thị thông báo lỗi
+                    Players.find({})
+                        .then((players => {
+                            res.render('view/players',
+                                {
+                                    movie: mutipleMongooseToObject(players),
+                                    clubList: clubData,
+                                    positionList: positions,
+                                    errorMessageName: `${name} name is already on the board`,
+                                    input: req.body
+                                })
+                        }
+                        ))
+                        .catch(next)
+                } else {
+                    next();
+                }
+            })
+            .catch(next);
+    }
     put(req, res, next) {
         try {
             const { name } = req.body
             Players.findOne({ name: name })
-                .then((nations => {
-                    if (nations) {
-                        if (nations._id != req.params.id) {
+                .then((players => {
+                    if (players) {
+                        if (players._id != req.params.id) {
                             Players.find({})
-                                .then((nations => {
+                                .then((players => {
                                     res.render('view/players',
                                         {
-                                            movie: mutipleMongooseToObject(nations),
+                                            movie: mutipleMongooseToObject(players),
                                             clubList: clubData,
                                             positionList: positions,
-                                            errorPutName: `${name} name is already on the board`
+                                            errorPutName: `${name} name is already on the board`,
+
                                         })
                                 }
                                 ))
@@ -133,7 +157,7 @@ class playersController {
                         }
                     } else {
                         Players.findByIdAndUpdate(req.params.id, req.body)
-                            .then((movies => {
+                            .then((player => {
                                 res.redirect('/players')
                             }
                             ))

@@ -25,7 +25,7 @@ const playerSchema = new schema(
     },
     isCaptain: {
       type: Boolean,
-      required: true,
+      required: false,
     },
   },
   {

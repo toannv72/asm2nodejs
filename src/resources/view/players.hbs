@@ -12,7 +12,7 @@
                 <label class="mb-3 block text-base font-medium text-[#07074D]">
                     Name
                 </label>
-                <input required value="{{this.name}}" type="text" name="name" id="name" placeholder="Full Name"
+                <input required value="{{input.name}}" type="text" name="name" id="name" placeholder="Full Name"
                     minlength="1" maxlength="1000"
                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                 <p class="text-red-500 ">{{errorMessageName}}</p>
@@ -24,7 +24,7 @@
                 </label>
                 <select class="custom-select h-14" id="inputGroupSelect01" name="club">
                     {{#each clubList}}
-                    <option value="{{this.name}}">
+                    <option value="{{this.name}}" {{checkSelect ../input.club this.name}}>
                         {{this.name}}
                     </option>
                     {{/each}}
@@ -37,7 +37,7 @@
                 </label>
                 <select class="custom-select h-14" id="inputGroupSelect01" name="position">
                     {{#each positionList}}
-                    <option value="{{this.name}}">
+                    <option value="{{this.name}}"  {{checkSelect ../input.position this.name}}>
                         {{this.name}}
                     </option>
                     {{/each}}
@@ -47,7 +47,7 @@
                 <label class="mb-3 block text-base font-medium text-[#07074D]">
                     goals
                 </label>
-                <input required value="{{this.image}}" type="number" name="goals" id="goals"
+                <input required value="{{input.goals}}" type="number" name="goals" id="goals"
                     placeholder="Number of goals" min="0"
                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
 
@@ -56,7 +56,7 @@
                 <label class="mb-3 block text-base font-medium text-[#07074D]">
                     Image
                 </label>
-                <input required value="{{this.image}}" type="text" name="image" id="image" placeholder="Url image"
+                <input required value="{{input.image}}" type="text" name="image" id="image" placeholder="Url image"
                     minlength="1" maxlength="1000"
                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
 
@@ -66,12 +66,13 @@
                     Is Captain?
                 </label>
                 <div class="custom-control custom-radio">
-                    <input checked value="no" type="radio" id="customRadio1" name="isCaptain"
+                    <input  checked value="false" type="radio" id="customRadio1" name="isCaptain"
                         class="custom-control-input">
                     <label class="custom-control-label" for="customRadio1">NO</label>
                 </div>
+              
                 <div class="custom-control custom-radio">
-                    <input type="radio" value="yes" id="customRadio2" name="isCaptain" class="custom-control-input">
+                    <input {{check input.isCaptain}} type="radio" value="true" id="customRadio2" name="isCaptain" class="custom-control-input">
                     <label class="custom-control-label" for="customRadio2">YES</label>
                 </div>
             </div>

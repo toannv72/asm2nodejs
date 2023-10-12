@@ -4,12 +4,12 @@ const playersRouter = express.Router()
 
 playersRouter
     .route("/:id")
-    .put(PlayersController.put)
+    .put(PlayersController.checkCaptainPut, PlayersController.put)
     .delete(PlayersController.delete)
 
 playersRouter
     .route("/")
-    .post( PlayersController.post)
+    .post(PlayersController.checkCaptain, PlayersController.post)
     .get(PlayersController.index)
 
 

@@ -104,29 +104,68 @@ class playersController {
     }
 
     checkCaptain(req, res, next) {
-        const { club } = req.body;
-        Players.findOne({ club: club, isCaptain: true })
-            .then((captain) => {
-                if (captain) {
-                    // Nếu đã có đội trưởng, hiển thị thông báo lỗi
-                    Players.find({})
-                        .then((players => {
-                            res.render('view/players',
-                                {
-                                    movie: mutipleMongooseToObject(players),
-                                    clubList: clubData,
-                                    positionList: positions,
-                                    errorMessageName: `${name} name is already on the board`,
-                                    input: req.body
-                                })
+        const { club, isCaptain } = req.body;
+        if (isCaptain === 'true') {
+            console.log(1111111111, isCaptain);
+            Players.findOne({ club: club, isCaptain: true })
+                .then((captain) => {
+                    if (captain) {
+                        // Nếu đã có đội trưởng, hiển thị thông báo lỗi
+                        Players.find({})
+                            .then((players => {
+                                res.render('view/players',
+                                    {
+                                        movie: mutipleMongooseToObject(players),
+                                        clubList: clubData,
+                                        positionList: positions,
+                                        input: req.body,
+                                        errorIsCaptain: 'A club has only one captain'
+                                    })
+                            }
+                            ))
+                            .catch(next)
+                    } else {
+                        next();
+                    }
+                })
+                .catch(next);
+        } else {
+            next();
+        }
+
+    }
+    checkCaptainPut(req, res, next) {
+        const { club, isCaptain } = req.body;
+        if (isCaptain === 'yes') {
+            Players.findOne({ club: club, isCaptain: true })
+                .then((captain) => {
+                    if (captain) {
+                        if (captain._id != req.params.id) {
+                            Players.find({})
+                                .then((players => {
+                                    res.render('view/players',
+                                        {
+                                            movie: mutipleMongooseToObject(players),
+                                            clubList: clubData,
+                                            positionList: positions,
+                                            errorIsCaptainPut: 'A club has only one captain'
+                                        })
+                                }
+                                ))
+                                .catch(next)
+                        } else {
+                            next();
                         }
-                        ))
-                        .catch(next)
-                } else {
-                    next();
-                }
-            })
-            .catch(next);
+                        // Nếu đã có đội trưởng, hiển thị thông báo lỗi
+
+                    } else {
+                        next();
+                    }
+                })
+                .catch(next);
+        } else {
+            next();
+        }
     }
     put(req, res, next) {
         try {

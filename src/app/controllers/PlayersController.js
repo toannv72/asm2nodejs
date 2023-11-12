@@ -106,7 +106,6 @@ class playersController {
     checkCaptain(req, res, next) {
         const { club, isCaptain } = req.body;
         if (isCaptain === 'true') {
-            console.log(1111111111, isCaptain);
             Players.findOne({ club: club, isCaptain: true })
                 .then((captain) => {
                     if (captain) {
@@ -165,7 +164,7 @@ class playersController {
                 .catch(next);
         } else {
             next();
-        }
+        }  
     }
     put(req, res, next) {
         try {
@@ -216,7 +215,7 @@ class playersController {
     delete(req, res, next) {
         Players.findByIdAndDelete(req.params.id)
             .then((movies => {
-                res.redirect('back')
+                res.redirect('/players')
             }
             ))
             .catch(next)
